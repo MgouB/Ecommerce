@@ -1,0 +1,98 @@
+
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Assurez-vous que le wrapper prend toute la hauteur de la fenêtre */
+}
+
+.content {
+    flex: 1; /* Permet au contenu de prendre tout l'espace disponible */
+    padding: 20px; /* Ajoutez un peu de padding si nécessaire */
+}
+
+.footer {
+    background-color: #1C1C1C; /* Fond noir pour le footer */
+    color: #F5F5F5; /* Texte en blanc cassé */
+    padding: 20px 0; /* Espacement vertical */
+    text-align: center; /* Centrer le texte */
+    width: 100%; /* Prendre toute la largeur */
+}
+
+.search-container {
+    display: flex; /* Utiliser Flexbox pour aligner les éléments */
+    align-items: center; /* Centrer verticalement */
+    border: 1px solid #ccc; /* Bordure autour de la barre de recherche */
+    border-radius: 25px; /* Coins arrondis */
+    overflow: hidden; /* Masquer les débordements */
+    width: 300px; /* Largeur de la barre de recherche */
+    background-color: #1C1C1C; /* Fond noir pour la barre de recherche */
+}
+
+.search-input {
+    border: none; /* Pas de bordure pour l'input */
+    padding: 10px 15px; /* Espacement interne */
+    flex: 1; /* Prendre tout l'espace disponible */
+    font-size: 16px; /* Taille de la police */
+    background-color: transparent; /* Fond transparent */
+    color: #F5F5F5; /* Texte en blanc cassé */
+}
+
+.search-input:focus {
+    outline: none; /* Supprimer le contour par défaut */
+}
+
+.search-button {
+    background-color: #007bff; /* Couleur de fond du bouton */
+    border: none; /* Pas de bordure */
+    color: white; /* Couleur du texte */
+    padding: 10px 15px; /* Espacement interne */
+    cursor: pointer; /* Curseur en main */
+}
+
+.search-button:hover {
+    background-color: #0056b3; /* Couleur de fond au survol */
+}
+
+.nav-icons {
+    margin-left: 20px;
+}
+
+.icon-link {
+    font-size: 1.5rem;
+    color: #F5F5F5; /* Texte en blanc cassé */
+    margin-left: 15px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.icon-link:hover {
+    color: #007bff; /* Couleur au survol */
+}
+
+/* Cards */
+.card {
+    background-color: #1C1C1C !important; /* Fond noir */
+    color: #F5F5F5 !important; /* Texte en blanc cassé */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 10px;
+}
+
+/* Centrage du texte */
+.card-title,
+.card-text {
+    text-align: center;
+}
+.custom-text {
+    color: #ff5733; /* Remplacez par la couleur de votre choix */
+}
+#carouselExampleControls {
+    max-width: 5px; /* Ajustez cette valeur pour correspondre à la largeur de vos cartes */
+    margin: 0 auto; /* Centre le carousel */
+}
+.carousel-item img {
+    width: 100%; /* Assure que l'image prend toute la largeur du carousel */
+    height: auto; /* Maintient le ratio d'aspect */
+}
+
+

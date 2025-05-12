@@ -1,0 +1,94 @@
+/* Conteneur principal du panier */
+.panier-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Conteneur des éléments du panier */
+.panier-item {
+    display: flex;
+    align-items: center;
+    padding: 25px; /* Augmenter le padding */
+    margin-bottom: 20px;
+    border-bottom: 1px solid #E5E5E5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Effet hover pour les éléments du panier */
+.panier-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Image du produit */
+.product-image {
+    width: 100px; /* Augmenter la largeur de l'image */
+    height: 100px; /* Augmenter la hauteur de l'image */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+/* Informations sur le produit */
+.product-info {
+    flex-grow: 1;
+}
+
+.product-name {
+    font-size: 1.5em; /* Augmenter la taille de la police */
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.product-quantity {
+    font-size: 1.2em; /* Augmenter la taille de la police */
+    color: #666;
+}
+
+.product-price {
+    font-size: 1.5em; /* Augmenter la taille de la police */
+    font-weight: 700;
+    color: #111;
+}
+
+/* Total du panier */
+.panier-total {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #111;
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    font-size: 1.5em;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Affichage du message lorsque le panier est vide */
+.panier-empty-message {
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* Style pour les boutons et interactions */
+.button {
+    display: inline-block;
+    background-color: #FF4C00;
+    color: white;
+    padding: 12px 30px;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #E04E00;
+}

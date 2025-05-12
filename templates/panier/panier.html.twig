@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ parent() }}Panier
+{% endblock %}
+{% block stylesheets %}
+{{ parent() }}<link rel="stylesheet" href="{{ asset('css/panier.css') }}">
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold w-100">
+        Panier</h1>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 bg-white p-4 m-0 text-primary w-100">
+            <div class="panier-container">
+                {% if app.user.panier and app.user.panier.ajouters is not empty %}
+                    {% set total = 0 %} 
+                    {% for ajouter in app.user.panier.ajouters %}
+                        <div class="panier-item">
+                            {% if ajouter.produit.image %}
+                                {% set nom = 'images/' ~ ajouter.produit.image %}
+                                <img src="{{ asset(nom) }}" class="product-image" alt="Image de {{ ajouter.produit.nom }}">
+                            {% endif %}
+                            <div class="product-info">
+                                <h4 class="product-name">{{ ajouter.produit.nom }}</h4>
+                                <p class="product-quantity">
+                                    <label for="quantity-{{ loop.index }}">Quantité:</label>
+                                    <select id="quantity-{{ loop.index }}" class="quantity-select" name="quantity[{{ loop.index }}]">
+                                        {% for i in 1..10 %} {# Vous pouvez ajuster la plage selon vos besoins #}
+                                            <option value="{{ i }}" {% if i == ajouter.qte %}selected{% endif %}>{{ i }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    = 
+                                    <span class="product-price">
+                                        {% set prix = ajouter.qte * ajouter.produit.prix %}
+                                        {{ prix }}€
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        {% set total = total + prix %} 
+                    {% endfor %}
+                    <div style="text-align: right;">
+                        <span class="btn btn-lg btn-primary mt-4">
+                            Total = {{ total }}€
+                        </span>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-lg btn-primary mt-4" href="{{ path('app_accueil') }}">
+                            Paiement
+                        </a>
+                    </div>
+                {% else %}
+                    <p>Votre panier est vide.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+	</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+{% endblock %}
+

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{parent()}}Colliseum
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{asset('style.css')}}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+</head>
+
+<h5>Produit phare!</h5>
+<div class="card-group">
+	{% for produit in produits %}
+		<div class="card center" style="max-width: 400px;">
+			<div style="">
+				{% if produit.image %}
+					{% set nom = 'images/' ~ produit.image %}
+					<img src="{{asset(nom)}}" class="card-img-top img-thumbnail rounded mx-auto d-block img" alt="...">
+				{% endif %}
+			</div>
+			<div class="card-body">
+				<h5 class="card-title text-center">
+					{{produit.nom}}
+				</h5>
+				<p class="card-text text-center">
+					{{produit.prix}}
+					€
+				</p>
+				<div class="d-flex justify-content-center align-items-center">
+					<div class="d-flex justify-content-center align-items-center">
+						<a href="{{ path('app_aimer_produit', {'id' : produit.id}) }}" class="heart-icon d-flex justify-content-center align-items-center me-2">
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								{% if produit in app.user.produits %}
+									<i class="bi bi-heart-fill text-danger center"></i>
+								{% else %}
+									<i class="bi bi-heart center"></i>
+								{% endif %}
+							{% endif %}
+						</a>
+						<a href="{{ path('app_ajout_panier',{'id':produit.id}) }}" class="d-flex justify-content-center align-items-center">
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								<i class="bi bi-cart center"></i>
+							{% endif %}
+						</a>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	{% endfor %}
+	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img class="d-block w-10" src="{{asset('images/sweat.webp')}}" alt="First slide">
+			</div>
+			{#<div class="carousel-item">
+				<img class="d-block w-10" src="public/images/sweat.webp/sweat2.webp" alt="Second slide">
+			</div>
+			<div class="carousel-item">
+				<img class="d-block w-10" src="public/images/sweat.webp/sweat3.webp" alt="Third slide">
+			</div>#}
+		</div>
+		<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+</div>{% endblock %}
