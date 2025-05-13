@@ -38,7 +38,7 @@ capitalize }}</td>
 									<td>{{ produit.prix |
 capitalize }}</td>
 									<td>{{ produit.stock}}</td>
-									<td>{{ produit.type | lower }}</td>
+									<td>{{ produit.categorie.nomCategorie | lower }}</td>
 
 									<td>{{ produit.dateEnvoi |
 date("d-m-Y à H:i:s") }}</td>

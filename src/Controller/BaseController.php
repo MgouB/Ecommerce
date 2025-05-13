@@ -9,16 +9,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProduitRepository;
+use App\Repository\CategorieRepository;
+use App\Repository\MarqueRepository;
+
+
 
 
 class BaseController extends AbstractController
 {
     #[Route('/', name: 'app_accueil')]
-    public function accueil(ProduitRepository $produitRepository): Response
+    public function accueil(ProduitRepository $produitRepository, MarqueRepository $marqueRepository, CategorieRepository $categorieRepository, EntityManagerInterface $em ): Response
     {
         $produits = $produitRepository->findAll();
+        $categories = $categorieRepository->findAll();
+        $marques = $marqueRepository->findAll();
         return $this->render('base/accueil.html.twig', [
-            'produits' => $produits
+            'produits' => $produits,
+            'categories' => $categories,
+            'marques' => $marques
         ]);
     }
 
@@ -37,10 +45,16 @@ class BaseController extends AbstractController
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $file = $form->get('image')->getData();
+                if ($file) {
+                    $fileName = uniqid() . '.' . $file->guessExtension();
+                    $file->move($this->getParameter('produit_directory'), $fileName);
+                    $produit->setImage($fileName);
+                }
                 $produit->setDateEnvoi(new \Datetime());
                 $em->persist($produit);
                 $em->flush();
-                $this->addFlash('notice', 'Message envoyé');
+                $this->addFlash('notice', 'Produit Ajouté'); 
                 return $this->redirectToRoute('app_ajout_produit');
             }
         }
@@ -95,6 +109,25 @@ class BaseController extends AbstractController
             'produits' => $produitsFavoris,
         ]);
 
+    }
+    #[Route('/favoris/remove/{id}', name: 'app_favoris_remove', methods: ['POST'])]
+    public function remove(Request $request, Produit $produit, EntityManagerInterface $em): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
+            if ($user->getProduits()->contains($produit)) {
+                $user->removeProduit($produit);
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash('success', 'Produit retiré des favoris.');
+            }
+        } else {
+            $this->addFlash('error', 'Action non autorisée.');
+        }
+
+        return $this->redirectToRoute('app_favoris');
     }
 }
 

@@ -3,79 +3,83 @@
     {{ parent() }}Panier
 {% endblock %}
 {% block stylesheets %}
-{{ parent() }}<link rel="stylesheet" href="{{ asset('css/panier.css') }}">
+    {{ parent() }}
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 {% endblock %}
 {% block body %}
-<div class="container-fluid">
-    <h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold w-100">
-        Panier</h1>
+<div class="container-fluid py-4">
+    <h1 class="text-center text-dark mt-3 mb-4 fw-bold display-4">Panier</h1>
     <div class="row justify-content-center">
-        <div class="col-12 col-md-8 bg-white p-4 m-0 text-primary w-100">
-            <div class="panier-container">
-                {% if app.user.panier and app.user.panier.ajouters is not empty %}
-                    {% set total = 0 %} 
-                    {% for ajouter in app.user.panier.ajouters %}
-                        <div class="panier-item">
-                            {% if ajouter.produit.image %}
-                                {% set nom = 'images/' ~ ajouter.produit.image %}
-                                <img src="{{ asset(nom) }}" class="product-image" alt="Image de {{ ajouter.produit.nom }}">
-                            {% endif %}
-                            <div class="product-info">
-                                <h4 class="product-name">{{ ajouter.produit.nom }}</h4>
-                                <p class="product-quantity">
-                                    <label for="quantity-{{ loop.index }}">Quantité:</label>
-                                    <select id="quantity-{{ loop.index }}" class="quantity-select" name="quantity[{{ loop.index }}]">
-                                        {% for i in 1..10 %} {# Vous pouvez ajuster la plage selon vos besoins #}
-                                            <option value="{{ i }}" {% if i == ajouter.qte %}selected{% endif %}>{{ i }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    = 
-                                    <span class="product-price">
-                                        {% set prix = ajouter.qte * ajouter.produit.prix %}
-                                        {{ prix }}€
-                                    </span>
-                                </p>
+        <div class="col-12 col-lg-10">
+            <div class="row">
+
+                <div class="col-12 col-md-8 mb-4">
+                    {% if app.user.panier %}
+                        {% set total = 0 %}
+                        {% for ajouter in app.user.panier.ajouters %}
+                            <div class="card mb-3 border-0 shadow-sm">
+                                <div class="card-body d-flex align-items-center flex-column flex-md-row">
+                                    {% if ajouter.produit.image %}
+                                        {% set nom = 'images/' ~ ajouter.produit.image %}
+                                        <img src="{{ asset(nom) }}" class="img-fluid me-md-3 mb-3 mb-md-0" style="width: 120px; height: auto;" alt="Image de {{ ajouter.produit.nom }}">
+                                    {% endif %}
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title mb-1 fw-bold">{{ ajouter.produit.nom }}</h5>
+                                        <div class="d-flex align-items-center flex-wrap">
+                                        </br>
+                                            <form action="{{ path('app_panier_update', {'id': ajouter.id}) }}" method="post" class="d-flex align-items-center me-3 mb-2">
+                                                <label for="quantity-{{ ajouter.id }}" class="me-2 text-muted">Qté:</label>
+                                                <select id="quantity-{{ ajouter.id }}" name="quantity" class="form-select form-select-sm" style="width: 80px;" onchange="this.form.submit()">
+                                                    {% for i in 1..10 %}
+                                                        <option value="{{ i }}" {% if ajouter.qte == i %}selected{% endif %}>{{ i }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </form>
+                                            <form action="{{ path('app_supprimer_panier', {'id': ajouter.id}) }}" method="post" class="mb-2">
+                                                <button type="submit" class="btn btn-link p-0" title="Supprimer l'article">
+                                                    <i class="bi bi-trash3-fill text-danger"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <p class="card-text fw-bold mt-2">
+                                            {% set prix = ajouter.qte * ajouter.produit.prix %}
+                                            {{ prix }}€
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% set total = total + prix %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <p class="text-muted">Votre panier est vide.</p>
+                                <a href="{{ path('app_accueil') }}" class="btn btn-outline-dark">Continuer vos achats</a>
                             </div>
                         </div>
-                        {% set total = total + prix %} 
-                    {% endfor %}
-                    <div style="text-align: right;">
-                        <span class="btn btn-lg btn-primary mt-4">
-                            Total = {{ total }}€
-                        </span>
+                    {% endif %}
+                </div>
+
+                {% if app.user.panier %}
+                    <div class="col-12 col-md-4">
+                        <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
+                            <div class="card-body">
+                                <h4 class="card-title fw-bold mb-4">Résumé de la commande</h4>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span>Sous-total</span>
+                                    <span>{{ total }}€</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-4">
+                                    <span class="fw-bold">Total TTC</span>
+                                    <span class="fw-bold">{{ total }}€</span>
+                                </div>
+                                <a class="btn btn-dark btn-lg w-100 rounded-0" href="{{ path('app_accueil') }}">Passer la commande</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <a class="btn btn-lg btn-primary mt-4" href="{{ path('app_accueil') }}">
-                            Paiement
-                        </a>
-                    </div>
-                {% else %}
-                    <p>Votre panier est vide.</p>
                 {% endif %}
             </div>
         </div>
     </div>
 </div>
-
-	</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
 {% endblock %}
-

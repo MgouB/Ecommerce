@@ -9,6 +9,7 @@ use App\Entity\Produit;
 use App\Entity\Panier;
 use App\Entity\Ajouter;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 final class PanierController extends AbstractController
 {
@@ -50,4 +51,29 @@ final class PanierController extends AbstractController
         return $this->render('panier/panier.html.twig');
     
     }
+    #[Route('/private-supprimer_panier/{id}', name: 'app_supprimer_panier')]
+    public function supprimerPanier(Request $request, Ajouter $ajouter, EntityManagerInterface $em): Response
+    {
+        $referer = $request->headers->get('referer');
+        $this->getUser()->getPanier()->removeAjouter($ajouter);
+        $em->persist($ajouter);
+        $em->flush();
+
+        return $this->redirect($referer ?? $this->generateUrl('app_accueil'));
+    }
+    #[Route('/private-panier/update/{id}', name: 'app_panier_update', methods: ['POST'])]
+    public function updateQuantity(Ajouter $ajouter, Request $request, EntityManagerInterface $em): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $quantity = (int) $request->request->get('quantity');
+
+        if ($quantity >= 1 && $quantity <= 10) {
+            $ajouter->setQte($quantity);
+            $em->persist($ajouter);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('app_panier');
+    }
 }
+

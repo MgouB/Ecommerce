@@ -16,7 +16,7 @@ class SupprimerCategorieType extends AbstractType
         $builder->add('categories', EntityType::class, [
             'class' => Categorie::class,
             'choices' => $options['categories'],
-            'choice_label' => 'libelle',
+            'choice_label' => 'nomCategorie',
             'expanded' => true,
             'multiple' => true,
             'label' => false, 'mapped' => false])

@@ -13,7 +13,7 @@
 					<table class="table table-hover">
 						<thead>
 							<tr class="fw-bold text-primary">
-								<th scope="col">Libellé</th>
+								<th scope="col">Nom</th>
 								<th scope="col"></th>
 								<th scope="col"></th>
 								<th scope="col"></th>
@@ -21,9 +21,9 @@
 						</thead>
 						<tbody>
 							{% for categorie in categories |sort((a, b) =>
-a.libelle <=> b.libelle) %}
+a.nomCategorie <=> b.nomCategorie) %}
 								<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
-									<td>{{ categorie.libelle |
+									<td>{{ categorie.nomCategorie |
 capitalize }}</td>
 									<td>
 										<a href="{{path("app_modifier_categorie",{'id':categorie.id})}}">

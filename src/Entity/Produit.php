@@ -22,8 +22,7 @@ class Produit
     #[ORM\Column]
     private ?float $prix = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $type = null;
+   
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $Description = null;
@@ -48,6 +47,16 @@ class Produit
      */
     #[ORM\OneToMany(targetEntity: Ajouter::class, mappedBy: 'produit', orphanRemoval: true)]
     private Collection $ajouters;
+
+    #[ORM\ManyToOne(inversedBy: 'produits')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Marque $marque = null;
+
+    #[ORM\ManyToOne(inversedBy: 'produits')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Categorie $categorie = null;
+
+
 
     public function __construct()
     {
@@ -84,17 +93,6 @@ class Produit
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): static
-    {
-        $this->type = $type;
-
-        return $this;
-    }
 
     public function getDescription(): ?string
     {
@@ -197,4 +195,30 @@ class Produit
 
         return $this;
     }
+
+    public function getMarque(): ?Marque
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(?Marque $marque): static
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): static
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    
 }

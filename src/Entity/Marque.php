@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CategorieRepository;
+use App\Repository\MarqueRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategorieRepository::class)]
-class Categorie
+#[ORM\Entity(repositoryClass: MarqueRepository::class)]
+class Marque
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,15 +16,15 @@ class Categorie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nomCategorie = null;
+    private ?string $nomMarque = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $imageCategorie = null;
+    private ?string $imageMarque = null;
 
     /**
      * @var Collection<int, Produit>
      */
-    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'categorie')]
+    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'marque')]
     private Collection $produits;
 
     public function __construct()
@@ -32,32 +32,31 @@ class Categorie
         $this->produits = new ArrayCollection();
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNomCategorie(): ?string
+    public function getNomMarque(): ?string
     {
-        return $this->nomCategorie;
+        return $this->nomMarque;
     }
 
-    public function setNomCategorie(string $nomCategorie): static
+    public function setNomMarque(string $nomMarque): static
     {
-        $this->nomCategorie = $nomCategorie;
+        $this->nomMarque = $nomMarque;
 
         return $this;
     }
 
-    public function getImageCategorie(): ?string
+    public function getImageMarque(): ?string
     {
-        return $this->imageCategorie;
+        return $this->imageMarque;
     }
 
-    public function setImageCategorie(string $imageCategorie): static
+    public function setImageMarque(string $imageMarque): static
     {
-        $this->imageCategorie = $imageCategorie;
+        $this->imageMarque = $imageMarque;
 
         return $this;
     }
@@ -74,7 +73,7 @@ class Categorie
     {
         if (!$this->produits->contains($produit)) {
             $this->produits->add($produit);
-            $produit->setCategorie($this);
+            $produit->setMarque($this);
         }
 
         return $this;
@@ -84,12 +83,11 @@ class Categorie
     {
         if ($this->produits->removeElement($produit)) {
             // set the owning side to null (unless already changed)
-            if ($produit->getCategorie() === $this) {
-                $produit->setCategorie(null);
+            if ($produit->getMarque() === $this) {
+                $produit->setMarque(null);
             }
         }
 
         return $this;
     }
 }
-   

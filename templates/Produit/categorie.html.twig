@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{parent()}}
+    {% if produits|length > 0%}
+        {{produits.0.categorie.nomCategorie}}
+    {% endif %}
+{% endblock %}
+{% block body %}
+    <br/><br/><br/><br/>
+    {% if produits|length > 0%}
+        <h3 class="card-title text-center">
+            Catégorie
+            {{produits.0.categorie.nomCategorie}}.</h3><br/>
+        <div class="card-group d-flex justify-content-center">
+            {% for produit in produits %}
+                <div class="card-group">
+                    <div class="card mx-2 mb-3">
+                        {% if produit.image %}
+                            {% set nom = 'images/' ~ produit.image %}
+                            <a href="{{path("app_produit",{'id':produit.id})}}" class="text-decoration-none">
+                                <div class="image-container" style="width: 400px; height: 400px; display: flex; justify-content: center; align-items: center; background-color: white;">
+                                    <img src="{{asset(nom)}}" style="max-height: 100%; max-width: 100%; width: 400px; height: 400px; object-fit: contain; border-radius: 8px; margin-bottom: 15px;" class="card-img-top img-thumbnail rounded mx-auto d-block img" alt="{{produit.nom}}">
+                                </div>
+                            </a>
+                        {% endif %}
+                        <h5 class="card-title text-center">
+                            <a href="{{path("app_produit",{'id':produit.id})}}" class="text-decoration-none">
+                                {{produit.nom}}</br>
+                        </a>
+                        {{produit.marque.nomMarque}}
+                    </h5>
+                    <p class="card-text text-center">
+                        {{produit.prix}}
+                        €
+                    </p>
+                   <div class="d-flex justify-content-center align-items-center">
+				    <div class="d-flex justify-content-center align-items-center">
+						<a href="{{ path('app_aimer_produit', {'id' : produit.id}) }}" class="heart-icon d-flex justify-content-center align-items-center me-2">
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								{% if produit in app.user.produits %}
+									<i class="bi bi-heart-fill text-danger center"></i>
+								{% else %}
+									<i class="bi bi-heart center"></i>
+								{% endif %}
+							{% endif %}
+						</a>
+						<a href="{{ path('app_ajout_panier',{'id':produit.id}) }}" class="d-flex justify-content-center align-items-center">
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								<i class="bi bi-cart center"></i>
+							{% endif %}
+						</a>
+					</div>
+
+				</div>
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <h3>
+        Désolé, il n'y a actuellement aucun produit disponible dans cette catégorie. Revenez bientôt !
+    <h3>
+{% endif %}
+        <br/><br/>
+{% endblock %}
