@@ -50,11 +50,11 @@
 							<a class="dropdown-item" href="{{ path('app_ajout_marque') }}">Ajouts Marque</a>
 						</li>
 						<li><hr class="dropdown-divider"></li>
-
+						{% if is_granted('ROLE_ADMIN') %}
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('app_liste_users') }}">Utilisateurs</a>
 						</li>
-
+						{% endif %}
 					</ul>
 				{% endif %}
 				<li class="nav-item">
