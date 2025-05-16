@@ -24,6 +24,7 @@ class CategorieType extends AbstractType
                         'image/jpeg',
                         'image/webp',
                         'image/png',
+                        'image/jpg',
                     ],
                     'mimeTypesMessage' => 'Le site accepte uniquement les fichiers webp, png et jpg',
                 ]),

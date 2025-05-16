@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-	{{parent()}}Colliseum
+	Colliseum
 {% endblock %}
 {% block stylesheets %}
 	{{parent()}}
 	<link href="{{asset('style.css')}}" rel="stylesheet">
 {% endblock %}
 {% block body %}
-</head>
-<h4>Cherchez-vous un produit spécifique ?
-</h4>
+<h1 class="text-center text-white mt-4 pt-4 display-1 fw-bold fst-italic">
+	Colliseum
+</h1>
+</br>
+<h4 class="text-center">Sport</h4>
 <div class="card-group d-flex justify-content-center">
 	{% for categorie in categories %}
 		<div class="card-group">
@@ -19,8 +21,8 @@
 				</h5>
 				{% set nom = 'images/categorie/' ~ categorie.imageCategorie %}
 				<a href="{{path("app_categorie",{'Categorie':categorie.id})}}" class="text-decoration-none">
-					<div class="image-container" style="width:450px; height: 304px; display: flex; justify-content: center; align-items: center; background-color: white;">
-						<img src="{{ asset(nom) }}" style="max-height: 100%; max-width: 100%; width: 500px; height: 500px; object-fit: contain; margin-bottom: 15px;">
+					<div class="image-container" style="width:250px; height: 250px; display: flex; justify-content: center; align-items: center; background-color: white;">
+						<img src="{{ asset(nom) }}" style="width: 250px; height: 250px; object-fit: contain; margin-bottom: 0px;">
 					</div>
 				</a>
 
@@ -29,67 +31,21 @@
 		</div>
 	{% endfor %}
 </div>
-
-<h4>Avez-vous une marque préférée ?
-</h4>
-
+</br>
+<div style="width: calc(100% - 320px); height: 2px; background-color: #ccc; margin: 20px 160px;"></div>
+<h4 class="text-center">Marques</h4>
 <div class="card-group d-flex justify-content-center">
 	{% for marque in marques %}
 		<div class="card-group">
 			<div class="card mx-2 mb-3">
 				{% set nom = 'images/marque/' ~ marque.imageMarque %}
 				<a href="{{path("app_marque",{'Marque':marque.id})}}" class="text-decoration-none">
-					<div class="image-container" style="width: 150px; height: 150px; display: flex; justify-content: center; align-items: center; background-color: white;">
-						<img src="{{ asset(nom) }}" style="max-height: 100%; max-width: 100%; width: 150px; height: 150px; object-fit: contain; border-radius: 8px;">
+					<div class="image-container" style="width: 250px; height: 250px; display: flex; justify-content: center; align-items: center; background-color: white;">
+						<img src="{{ asset(nom) }}" style="max-height: 100%; max-width: 100%; width: 250px; height: 250px; object-fit: contain; border-radius: 8px;">
 					</div>
 				</a>
 			</div>
 		</div>
 	{% endfor %}
 </div>
-
-<h5>Produit phare!</h5>
-<div class="card-group">
-	{% for produit in produits %}
-		<div class="card center" style="max-width: 400px;">
-			<div style="">
-				{% if produit.image %}
-					{% set nom = 'images/' ~ produit.image %}
-					<a href="{{path("app_produit",{'id':produit.id})}}" class="text-decoration-none">
-
-						<img src="{{asset(nom)}}" class="card-img-top img-thumbnail rounded mx-auto d-block img" alt="...">
-					</a>
-				{% endif %}
-			</div>
-			<div class="card-body">
-				<h5 class="card-title text-center">
-					{{produit.nom}}
-				</h5>
-				<p class="card-text text-center">
-					{{produit.prix}}
-					€
-				</p>
-				<div class="d-flex justify-content-center align-items-center">
-					<div class="d-flex justify-content-center align-items-center">
-						<a href="{{ path('app_aimer_produit', {'id' : produit.id}) }}" class="heart-icon d-flex justify-content-center align-items-center me-2">
-							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-								{% if produit in app.user.produits %}
-									<i class="bi bi-heart-fill text-danger center"></i>
-								{% else %}
-									<i class="bi bi-heart center"></i>
-								{% endif %}
-							{% endif %}
-						</a>
-						<a href="{{ path('app_ajout_panier',{'id':produit.id}) }}" class="d-flex justify-content-center align-items-center">
-							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-								<i class="bi bi-cart center"></i>
-							{% endif %}
-						</a>
-					</div>
-
-				</div>
-
-			</div>
-		</div>
-	{% endfor %}
-</div>{% endblock %}
+{% endblock %}

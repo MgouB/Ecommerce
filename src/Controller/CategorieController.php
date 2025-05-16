@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\SupprimerCategorieType;
+use App\Form\CategorieType;
 
 class CategorieController extends AbstractController
 {
@@ -66,9 +67,41 @@ class CategorieController extends AbstractController
     }
 
     #[Route('/ajout-categorie', name: 'app_ajout_categorie')]
-    public function ajoutCategorie(): Response
+    public function ajoutCategorie(Request $request, EntityManagerInterface $em): Response
     {
+        $categorie = new Categorie();
+        $form = $this->createForm(CategorieType::class, $categorie);
+        
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $file = $form->get('imageCategorie')->getData();
+                if ($file) {
+                    $fileName = uniqid() . '.' . $file->guessExtension();
+                    $file->move($this->getParameter('categorie_directory'), $fileName);
+                    $categorie->setimageCategorie($fileName);
+                }
+                $em->persist($categorie);
+                $em->flush();
+                $this->addFlash('notice', 'Catégorie Ajouté'); 
+                return $this->redirectToRoute('app_ajout_categorie');
+            }
+        }
+
+
         return $this->render('categorie/ajout_categorie.html.twig', [
+            'form' => $form->createView(),
         ]);
+    }
+    #[Route('/mod-telechargement-categorie/{id}', name: 'app_telechargement_categorie', requirements:
+            ["id" => "\d+"])]
+    public function telechargementCategorie(Categorie $categorie)
+    {
+        if ($$categorie == null) {
+            $this->redirectToRoute('app_liste_categories');
+        } else {
+            return $this->file($this->getParameter('categorie_directory') . '/' . $$categorie->getImageCategorie(),
+                $$categorie->getImageCategorie());
+        }
     }
 }

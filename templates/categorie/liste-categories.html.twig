@@ -1,49 +1,64 @@
+
 {% extends 'base.html.twig' %}
 {% block title %}
-	{{parent()}}Liste des catégories
+	{{parent()}}Liste des Catégories
 {% endblock %}
 {% block body %}
 	<div class="container-fluid">
-		<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
+		<h1 class="text-center text-white mt-4 pt-4 display-1 fw-bold">
 			Liste des catégories</h1>
 		<div class="row justify-content-center">
-			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+			<div class="col-12 col-md-8 bg-white p-4 m-0 text-white">
 				<div class="table-responsive">
-				{{ form_start(form) }}
 					<table class="table table-hover">
 						<thead>
-							<tr class="fw-bold text-primary">
+							<tr class="fw-bold text-white">
+								<th scope="col">Images Catégorie</th>
 								<th scope="col">Nom</th>
 								<th scope="col"></th>
 								<th scope="col"></th>
 								<th scope="col"></th>
+
 							</tr>
 						</thead>
 						<tbody>
 							{% for categorie in categories |sort((a, b) =>
 a.nomCategorie <=> b.nomCategorie) %}
 								<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
-									<td>{{ categorie.nomCategorie |
+									<td>
+										{% if categorie.imageCategorie %}
+											{% set nom = 'images/categorie/' ~ categorie.imageCategorie %}
+											<div class="image-container" style="width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; background-color: white;">
+												<img src="{{ asset(nom) }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+											{% endif %}
+										</td>
+									</td>
+									<td>
+										{{ categorie.nomCategorie |
 capitalize }}</td>
 									<td>
 										<a href="{{path("app_modifier_categorie",{'id':categorie.id})}}">
-											<i class="bi bi-pen-fill text-dark"></i>
+											<i class="bi bi-pen-fill text-white"></i>
 										</a>
 									</td>
 									<td>
 										<a href="{{path("app_supprimer_categorie",{'id':categorie.id})}}">
-											<i class="bi bi-trash-fill text-dark"></i>
+											<i class="bi bi-trash-fill text-white"></i>
 										</a>
 									</td>
-									<td>{{ form_widget(form.categories[categorie.id]) }}</td>
+									<td>
+										<a href="{{path('app_telechargement_categorie',{'id':categorie.id})}}" style="text-decoration: none">
+											<i class="bi bi-download" style="color: white;"></i>
+										</a>
+									</td>
 								</tr>
 							{% endfor %}
 						</tbody>
 					</table>
-					{{ form_widget(form.supprimer) }}
-					{{ form_end(form) }}
+
 				</div>
 			</div>
 		</div>
 	</div>
 {% endblock %}
+

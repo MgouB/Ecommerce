@@ -1,0 +1,59 @@
+	{% extends 'base.html.twig' %}
+
+	{% block title %}
+		{{parent()}}
+		{% if produits|length > 0 %}
+			Produits
+		{% endif %}
+	{% endblock %}
+
+	{% block body %}
+		<br/><br/><br/><br/>
+
+		{% if produits|length > 0 %}
+			<h3 class="card-title text-center">Produits</h3><br/>
+
+			<div class="container">
+				<div class="row justify-content-center">
+					{% for produit in produits %}
+						<div class="col-md-4 col-sm-6 mb-4 d-flex justify-content-center">
+							<div class="card" style="width: 100%; max-width: 400px;">
+								{% if produit.image %}
+									{% set nom = 'images/' ~ produit.image %}
+									<a href="{{ path('app_produit', {'id': produit.id}) }}" class="text-decoration-none">
+										<img src="{{ asset(nom) }}" class="card-img-top img-thumbnail rounded mx-auto d-block mb-3" alt="{{ produit.nom }}">
+									</a>
+								{% endif %}
+								<div class="card-body text-center">
+									<h5 class="card-title">{{ produit.nom }}</h5>
+									<p class="card-text">{{ produit.prix }}
+										€</p>
+
+									<div class="d-flex justify-content-center align-items-center mb-2">
+										{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+											<a href="{{ path('app_aimer_produit', {'id' : produit.id}) }}" class="me-3">
+												{% if produit in app.user.produits %}
+													<i class="bi bi-heart-fill text-danger"></i>
+												{% else %}
+													<i class="bi bi-heart"></i>
+												{% endif %}
+											</a>
+											<a href="{{ path('app_ajout_panier',{'id':produit.id}) }}">
+												<i class="bi bi-cart"></i>
+											</a>
+										{% endif %}
+									</div>
+
+									<span class="categorie">{{ produit.categorie.nomCategorie }}</span>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		{% else %}
+			<h3>Désolé, il n'y a actuellement aucun produit disponible dans cette catégorie. Revenez bientôt !</h3>
+		{% endif %}
+
+		<br/><br/>
+	{% endblock %}

@@ -8,7 +8,7 @@
 {% endblock %}
 {% block body %}
 <div class="container-fluid py-4">
-    <h1 class="text-center text-dark mt-3 mb-4 fw-bold display-4">Produits Favoris</h1>
+    <h1 class="text-center text-white mt-3 mb-4 fw-bold display-4">Produits Favoris</h1>
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
             <div class="row">
@@ -49,10 +49,10 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                        <div class="card border-0 shadow-sm">
+                        <div class="card border-0 shadow-sm mx-center">
                             <div class="card-body text-center">
                                 <p class="text-muted">Votre liste de favoris est vide.</p>
-                                <a href="{{ path('app_accueil') }}" class="btn btn-outline-dark">Continuer vos achats</a>
+                                <a href="{{ path('app_accueil') }}" class="btn btn-outline-white">Continuer vos achats</a>
                             </div>
                         </div>
                     {% endif %}

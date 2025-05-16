@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche
+{% endblock %}
+
+{% block body %}
+    <br/><br/><br/><br/>
+    <h3 class="card-title text-center">Résultats de la recherche</h3>
+    {% if produits is empty %}
+        <div class="alert alert-warning mt-3">Aucun produit trouvé.</div>
+    {% else %}
+<div class="card-group">
+	{% for produit in produits %}
+		<div class="card center" style="max-width: 400px;">
+			<div style="">
+				{% if produit.image %}
+					{% set nom = 'images/' ~ produit.image %}
+					<a href="{{path("app_produit",{'id':produit.id})}}" class="text-decoration-none">
+
+						<img src="{{asset(nom)}}" class="card-img-top img-thumbnail rounded mx-auto d-block img" alt="...">
+					</a>
+				{% endif %}
+			</div>
+			<div class="card-body">
+				<h5 class="card-title text-center">
+					{{produit.nom}}
+				</h5>
+				<p class="card-text text-center">
+					{{produit.prix}}
+					€
+				</p>
+				<div class="d-flex justify-content-center align-items-center">
+					<div class="d-flex justify-content-center align-items-center">
+						<a href="{{ path('app_aimer_produit', {'id' : produit.id}) }}" class="heart-icon d-flex justify-content-center align-items-center me-2">
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								{% if produit in app.user.produits %}
+									<i class="bi bi-heart-fill text-danger center"></i>
+								{% else %}
+									<i class="bi bi-heart center"></i>
+								{% endif %}
+							{% endif %}
+						</a>
+						<a href="{{ path('app_ajout_panier',{'id':produit.id}) }}" class="d-flex justify-content-center align-items-center">
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								<i class="bi bi-cart center"></i>
+							{% endif %}
+						</a>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	{% endfor %}
+</div>
+    
+        
+    {% endif %}
+</br>{% endblock %}

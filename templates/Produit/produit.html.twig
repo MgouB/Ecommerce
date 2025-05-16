@@ -1,52 +1,52 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }}
-    {% if produit is defined and produit|length > 0 %}
-        {{ produit.nom }}
-    {% endif %}
+	{{ parent() }}
+	{% if produit is defined and produit|length > 0 %}
+		{{ produit.nom }}
+	{% endif %}
 {% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        {% if produit is defined and produit|length > 0 %}
-            <div class="row">
-                <div class="col-md-6 text-center">
-                    {% if produit.image %}
-                        <img src="{{ asset('images/' ~ produit.image) }}" class="img-fluid rounded border" alt="{{ produit.nom }}" style="max-height: 400px;">
-                    {% else %}
-                        <img src="{{ asset('image/pt.jpeg') }}" class="img-fluid rounded border" alt="Image par défaut" style="max-height: 400px;">
-                    {% endif %}
-                </div>
-                <div class="col-md-6 d-flex flex-column justify-content-center">
-                    <h1 class="--bs-light">{{ produit.nom }}</h1>
-                    <h3 >
-                        {{ produit.prix }}
-                        €</h3>
+	<div class="card-group d-flex justify-content-center card-group-custom-v2">
+			<div class="card-group">
+				<div class="card mx-2 mb-3">
+					<div class="container mt-5">
+						{% if produit is defined and produit|length > 0 %}
+							<div class="row">
+								<div class="col-md-6 text-center">
+									{% if produit.image %}
+										<img src="{{ asset('images/' ~ produit.image) }}" class="img-fluid rounded border" alt="{{ produit.nom }}" style="max-height: 400px;">
 
-                    <div class="my-4">
-                        <form method="post" action="{{ path('app_ajout_panier', { id: produit.id }) }}">
-                            <div class="input-group mb-2" style="max-width: 180px;">
-                                <label class="input-group-text" for="quantite">Quantité</label>
-                                <input type="number" name="quantite" id="quantite" class="form-control" value="1" min="1" max="10" required>
-                                <button type="submit" class="btn btn-outline-primary">
-                                    <i class="bi bi-cart-plus"></i>
-                                    Ajouter au panier
-                                </button>
-                            </div>
-                       </div>
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col border rounded p-4 --bs-light">
-                    <h4>Description du produit</h4>
-                    <p>{{ produit.description }}</p>
-                </div>
-            </div>
-        {% else %}
-            <h3>Le produit que vous recherchez n'est pas disponible :/</h3>
-        {% endif %}
-    </div><br/><br/>
-{% endblock %}
+									{% endif %}
+								</div>
+								<div class="col-md-6 d-flex flex-column justify-content-center">
+									<h1 class="--bs-light">{{ produit.nom }}</h1>
+									<h3>
+										{{ produit.prix }}
+										€</h3>
 
-
+									<div class="my-4">
+										<form method="post" action="{{ path('app_ajout_panier', { id: produit.id }) }}">
+											<div class="input-group mb-2" style="max-width: 180px;">
+												<label class="input-group-text" for="quantite">Quantité</label>
+												<input type="number" name="quantite" id="quantite" class="form-control" value="1" min="1" max="10" required>
+												<button type="submit" class="btn btn-outline-primary">
+													<i class="bi bi-cart-plus"></i>
+													Ajouter au panier
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row mt-5">
+									<div class="col border rounded p-4 --bs-light">
+										<h4>Description du produit</h4>
+										<p>{{ produit.description }}</p>
+									</div>
+								</div>
+							{% else %}
+								<h3>Le produit que vous recherchez n'est pas disponible :/</h3>
+							{% endif %}
+						</div><br/><br/>
+					{% endblock %}

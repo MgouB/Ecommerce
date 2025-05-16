@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{parent()}}Modifier le Produit
+{% endblock %}
+{% block body %}
+	<div class="container-fluid">
+		<h1 class="text-center text-white mt-4 pt-4 display-1 fw-bold">
+			Modifier le Produit</h1>
+			{{form(form)}}
+	</div>
+{% endblock %}

@@ -1,53 +1,67 @@
-{% extends 'base.html.twig' %}
-{% block title %}
-	{{parent()}}Liste des Produits
+
+{% extends 'base.html.twig' %}{% block title %}
+{{parent()}}Liste des Produit
 {% endblock %}
 {% block body %}
-	<div class="container-fluid">
-		<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
-			Liste des Produits</h1>
-		<div class="row justify-content-center">
-			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
-				<div class="table-responsive">
-					<table class="table table-hover">
-						<thead>
-							<tr class="fw-bold text-primary">
-								<th scope="col">image</th>
-								<th scope="col">Nom</th>
-								<th scope="col">Prix</th>
-								<th scope="col">Stock</th>
-								<th scope="col">Type</th>
-								<th scope="col">Date d'envoi</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for produit in produits |sort((a, b) =>
-b.dateEnvoi <=> a.dateEnvoi) %}
+<div class="container-fluid">
+	<h1 class="text-center text-white mt-4 pt-4 display-1 fw-bold">
+		Liste des produits</h1>
+	<div class="row justify-content-center">
+		<div class="col-12 col-md-8 bg-white p-4 m-0 text-white">
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr class="fw-bold text-white">
+							<th scope="col">Image Produit</th>
+							<th scope="col">Nom</th>
+							<th scope="col">Prix</th>
+							<th scope="col">Quantité</th>
+							<th scope="col">Catégorie</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+							<th scope="col"></th>
 
-								<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
 
-									<td>
-										{% if produit.image %}
-											{% set nom = 'images/' ~ produit.image %}
-											<img src="{{asset(nom)}}" class="card-img-top img-thumbnail rounded mx-auto d-block img" alt="..." width="25">
+						</tr>
+					</thead>
+					<tbody>
+						{% for produit in produits  %}
+							<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
+								<td>
+									{% if produit.image %}
+										{% set nom = 'images/' ~ produit.image %}
+										<div class="image-container" style="width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; background-color: white;">
+											<img src="{{ asset(nom) }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
 										{% endif %}
 									</td>
-									<td>{{ produit.nom |
-
+								</td>
+								<td>
+									{{ produit.nom |
 capitalize }}</td>
-									<td>{{ produit.prix |
-capitalize }}</td>
-									<td>{{ produit.stock}}</td>
-									<td>{{ produit.categorie.nomCategorie | lower }}</td>
-
-									<td>{{ produit.dateEnvoi |
-date("d-m-Y à H:i:s") }}</td>
-
-								</tr>
-							{% endfor %}
-						</tbody>
+								<td>{{ produit.prix |
+capitalize }} €</td>
+								<td>{{ produit.stock}}</td>
+								<td>{{ produit.categorie.nomCategorie | lower }}</td>
+								<td>
+									<a href="{{path("app_modifier_produit",{'id':produit.id})}}">
+										<i class="bi bi-pen-fill text-white"></i>
+									</a>
+								</td>
+								<td>
+									<a href="{{path("app_supprimer_produit",{'id':produit.id})}}">
+										<i class="bi bi-trash-fill text-white"></i>
+									</a>
+								</td>
+								<td>
+									<a href="{{path('app_telechargement_produit',{'id':produit.id})}}" style="text-decoration: none">
+										<i class="bi bi-download" style="color: white;"></i>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
 					</tbody>
 				</table>
+
 			</div>
 		</div>
 	</div>

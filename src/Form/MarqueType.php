@@ -18,7 +18,7 @@ class MarqueType extends AbstractType
     {
         $builder
             ->add('nomMarque', TextType::class, ['attr' => ['class' => 'form-control'], 'label_attr' => ['class' => 'fw-bold']])
-            ->add('imageCategorie', FileType::class, array('label' => 'Image', 'mapped' => false, 'attr' => ['class' =>
+            ->add('imageMarque', FileType::class, array('label' => 'Image', 'mapped' => false, 'attr' => ['class' =>
             'form-control'], 'label_attr' => ['class' => 'fw-bold'], 'constraints' => [
             new File([
                 'mimeTypes' => [

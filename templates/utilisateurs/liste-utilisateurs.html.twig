@@ -1,38 +1,64 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-	{{parent()}}Liste des utilisateurs
+
+{% block title %}Liste utilisateurs
 {% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
 		<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
 			Liste des utilisateurs</h1>
 		<div class="row justify-content-center">
-			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+			<div class="col-12 bg-white p-4 px-0 m-0 text-primary">
 				<div class="table-responsive">
+					{{ form_start(form) }}
 					<table class="table table-hover">
 						<thead>
-							<tr class="fw-bold text-primary">
-								<th scope="col">Nom</th>
-								<th scope="col">Prénom</th>
+							<tr class="fw-bold text-white">
 								<th scope="col">Email</th>
-								<th scope="col">Date d'inscription</th>
+								<th scope="col">Rôle</th>
+								<th scope="col">Nom</th>
+								<th scope="col">Prenom</th>
+								<th scope="col">Date</th>
+								<th scope="col">Modifier</th>
+								<th scope="col">Supprimer</th>
+								<th scope="col"></th>
 							</tr>
 						</thead>
 						<tbody>
-							{% for user in users |sort((a,b) => b.dateInscriptions <=> a.dateInscriptions) %}
+							{% for user in users %}
 								<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
-									<td>{{ user.nom |capitalize }}</td>
-									<td>{{ user.prenom |
-capitalize }}</td>
-									<td>{{ user.email | lower }}</td>
-									<td>{{ user.dateInscriptions |
-date("d-m-Y") }}</td>
+									<td>{{ user.email }}</td>
+									{% if 'ROLE_ADMIN' in user.roles %}
+										<td>Adminisrateur</td>
+									{% elseif 'ROLE_MOD' in user.roles %}
+										<td>Modérateur</td>
+									{% else %}
+										<td>Utilisateur</td>
+									{% endif %}
+									<td>{{ user.Nom}}</td>
+									<td>{{ user.Prenom }}</td>
+									<td>{{ user.dateInscriptions |date("d-m-Y")}}</td>
+									<td>
+										<a href="{{path("app_modifier_user",{'id':user.id})}}">
+											<i class="bi bi-pen-fill" style="color: white;"></i>
+										</a>
+									</td>
+									<td>
+										<a href="{{path("app_supprimer_user",{'id':user.id})}}">
+											<i class="bi bi-trash-fill" style="color: white;"></i>
+										</a>
+									</td>
+									<td>{{ form_widget(form.users[user.id]) }}</td>
 								</tr>
 							{% endfor %}
 						</tbody>
 					</table>
+					{{ form_widget(form.supprimer) }}
+					{{ form_end(form) }}
+
 				</div>
 			</div>
 		</div>
 	</div>
+	</br></br>
 {% endblock %}

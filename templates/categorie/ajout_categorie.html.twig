@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-	{{parent()}}Ajout de Catégorie
+	{{parent()}}Ajout Catégorie
 {% endblock %}
 {% block body %}
-	<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">Ajout de Catégorie</h1>
-{% endblock %}
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-10 text-white">
+				<h1 class="text-center text-white mt-4 pt-4 display-1 fw-bold">Ajout Categorie</h1>
+				{{form(form)}}
+				</div>
+			</div>
+		</div>
+	{% endblock %}

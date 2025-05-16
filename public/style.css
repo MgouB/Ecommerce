@@ -94,5 +94,8 @@
     width: 100%; /* Assure que l'image prend toute la largeur du carousel */
     height: auto; /* Maintient le ratio d'aspect */
 }
+.h1 {
+    color: white; 
+} 
 
 
